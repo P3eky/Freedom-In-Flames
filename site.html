@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freedom in Flames | TSA Music Production</title>
+    <link rel="icon" type="image/x-icon" href="./icon.ico">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-navy: #050d2a;
+            --usa-red: #b11226;
+            --usa-blue: #1e4fbf;
+            --glass-white: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: var(--primary-navy);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            display: grid;
+            place-items: center;
+            min-height: 100vh;
+        }
+
+        /* main box */
+        #main-container {
+            width: 100%;
+            max-width: 580px;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #main-container.is-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .category-tag {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #8fa1ff;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .team-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 25px;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 900;
+            margin: 0 0 15px 0;
+            line-height: 1.1;
+        }
+
+        .description {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #b0b8d1;
+            margin-bottom: 30px;
+        }
+
+        .cover-art-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 35px;
+        }
+
+        .cover-art-container img {
+            width: 100%;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+
+        /* player stuff */
+        .audio-interface {
+            background: var(--glass-white);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .playback-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-toggle-play {
+            background: #fff;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .btn-toggle-play:hover { transform: scale(1.05); }
+        .btn-toggle-play:active { transform: scale(0.95); }
+
+        .btn-toggle-play svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--primary-navy);
+        }
+
+        .scrub-container {
+            flex-grow: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 10px;
+            background: linear-gradient(to right, var(--usa-red), #ffffff, var(--usa-blue));
+            position: relative;
+        }
+
+        /* circle on the progress bar */
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .timestamp {
+            font-family: monospace;
+            font-size: 13px;
+            min-width: 45px;
+        }
+
+        .download-action {
+            display: inline-flex;
+            align-items: center;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .download-action:hover {
+            background: #e0e0e0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <main id="main-container">
+        <span class="category-tag">TSA Music Production 2025–2026</span>
+        <div class="team-badge">Entry: XXXXX</div>
+
+        <h1 class="hero-title">Freedom in Flames</h1>
+        
+        <p class="description">
+            Composed for the <strong>250th U.S. Anniversary</strong>. 
+            A high-energy cinematic opener designed for the grand finale of a July 4th fireworks display.
+        </p>
+
+        <div class="cover-art-container">
+            <img src="art.png" alt="Album Artwork">
+        </div>
+
+        <audio id="track-element">
+            <source src="song.mp3" type="audio/mpeg">
+        </audio>
+
+        <section class="audio-interface">
+            <div class="playback-row">
+                <button class="btn-toggle-play" id="master-play-btn" aria-label="Play/Pause">
+                    <svg id="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    <svg id="pause-icon" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                </button>
+
+                <div class="scrub-container" id="seek-bar-track">
+                    <div class="progress-fill" id="progress-indicator"></div>
+                </div>
+
+                <span class="timestamp" id="current-time-display">0:00</span>
+            </div>
+        </section>
+
+        <a href="song.mp3" download class="download-action">
+            Download .MP3 File
+        </a>
+    </main>
+
+    <script>
+        // get all the stuff
+        var audio = document.getElementById('track-element');
+        var btn = document.getElementById('master-play-btn');
+        var play = document.getElementById('play-icon');
+        var pause = document.getElementById('pause-icon');
+        var bar = document.getElementById('seek-bar-track');
+        var progress = document.getElementById('progress-indicator');
+        var time = document.getElementById('current-time-display');
+
+        // makes the time look right
+        function timeFormat(sec) {
+            var m = Math.floor(sec / 60);
+            var s = Math.floor(sec % 60);
+            if (s < 10) {
+                return m + ':0' + s;
+            } else {
+                return m + ':' + s;
+            }
+        }
+
+        // play or pause when you click
+        function doPlay() {
+            if (audio.paused) {
+                audio.play();
+                play.style.display = 'none';
+                pause.style.display = 'block';
+            } else {
+                audio.pause();
+                play.style.display = 'block';
+                pause.style.display = 'none';
+            }
+        }
+
+        btn.addEventListener('click', doPlay);
+
+        // updates the bar as song plays
+        audio.addEventListener('timeupdate', function() {
+            var percent = (audio.currentTime / audio.duration) * 100;
+            progress.style.width = percent + '%';
+            time.innerText = timeFormat(audio.currentTime);
+        });
+
+        // click on bar to skip
+        bar.addEventListener('click', function(e) {
+            var w = bar.offsetWidth;
+            var clickX = e.offsetX;
+            var newTime = (clickX / w) * audio.duration;
+            audio.currentTime = newTime;
+        });
+
+        // fade in animation
+        window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                document.getElementById('main-container').classList.add('is-active');
+            }, 100);
+        });
+    </script>
+</body>
+</html>
